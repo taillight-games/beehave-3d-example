@@ -1,51 +1,38 @@
 
-
 extends RigidBody3D
 class_name Agent
 
-###--- PUBLIC VARS ---###
+#--- PUBLIC VARS ---#
 
 @export_category("Main")
-
-@export var debug_mode := false
 
 @export var normal_speed := 3.0
 @export var acceleration := 5.0
 @export var turn_speed := 5.0
 
+## If enabled, once the player stops, they slide according to their friction, otherwise they stop.
 @export var enable_slide := false
 @export var slide_friction := 1
 @export var normal_friction := 0.5
 
-@export var hit_recover_time : float = 1
-
-@export var hit_recovery_i_frames := true
-
-@export var hit_knockback : float = 3
-
-@export var floor_layer_mask := 0b0001 ## This is in Binary
-
 @export var fall_damage_multiplier := 0.5
-
 @export var fall_damage_floor := 5.0
-
 @export var in_air_downward_force := 0.0
 
-## 
+## Uses a ground check child node to check for the floor, more accurate
 @export var use_groundcheck : bool = false
 
+## Only used if GroundCheck is disabled
+@export var floor_layer_mask := 0b0001 ## This is in Binary
 
 @export_category("Navigation")
 
 @export var max_wander_distance := 10.0
-
 @export var wander_radius := 5.0
-
 @export var obstacle_path_skip_distance : float = 1.5
-
 @export var ground_detection_sensitivity : float = 3
 
-###--- PRIVATE VARS ---###
+#--- PRIVATE VARS ---#
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
@@ -64,7 +51,6 @@ class_name Agent
 
 @onready var anim_tree = $AnimationTree
 @onready var anim_sm = anim_tree["parameters/playback"]
-#@export var anim_pl : AnimationPlayer
 
 @onready var start_path_desired_distance = nav_agent.path_desired_distance
 
@@ -113,7 +99,7 @@ var ground_check : Area3D
 
 var nav_force : Vector3
 
-### --- Default Functions --- ###
+# --- Default Functions --- #
 
 
 @onready var movement_speed := normal_speed
@@ -139,7 +125,6 @@ func _physics_process(_delta):
 		return
 
 	_is_on_ground()
-	# get the current gravity on the body
 
 	
 	if custom_gravity != Vector3.ZERO:
@@ -201,12 +186,12 @@ func _physics_process(_delta):
 	
 	
 	#	linear_velocity += PhysicsServer3D.body_get_direct_state(get_rid()).total_gravity * _delta
-	### Enable the above if custom integrator is enabled
+	# Enable the above if custom integrator is enabled
 
 func _integrate_forces(_state):
 	pass
-	## setup that follows godots rules of dont modify linear velocity during physics_update
-	## works for now without this so im not using it
+	# setup that follows godots rules of dont modify linear velocity during physics_update
+	# works for now without this so im not using it
 	#if temp_veloc is Vector3:
 	#	linear_velocity = temp_veloc
 	#	temp_veloc = null
@@ -224,7 +209,7 @@ func apply_nav_velocity(safe_velocity: Vector3):
 		linear_velocity = Vector3(nav_force.x, nav_force.y, nav_force.z)
 
 
-### --- Behaviour Tree Functions --- ###
+# --- Behaviour Tree Functions --- #
 
 func toggle_navigation(b : bool):
 	enable_navigation = b
@@ -245,7 +230,7 @@ func set_target(_target: Vector3):
 		return
 
 
-	# get position of slime target
+	# get position of the target
 	var _pos : Vector3 = _target
 
 	# get the nav map and then find the closest point on the map to the slime target
@@ -269,7 +254,6 @@ func is_at_destination() -> bool:
 
 func anim_travel(_s : StringName):
 	anim_sm.travel(_s)
-	#anim_pl.play(_s)
 
 func on_hit(_enable_knockback : bool = true):
 	actions.hit_action()
@@ -318,22 +302,13 @@ func _navigate(_delta):
 	var next_path_position: Vector3 = nav_agent.get_next_path_position()
 	var current_agent_position: Vector3 = global_position
 
-	# DebugDraw.draw_line_3d(global_position + Vector3(0,0.5,0), next_path_position, Color.WHITE)
-
-	#print(get_real_velocity().length())
 	# set the acceleration
-	
 	var _speed = nav_force.length()
 	
 	if nav_force.length() < movement_speed:
-		
-		#_speed = lerp(nav_force.length(), movement_speed, acceleration * _delta)
-		
 		_speed = move_toward(nav_force.length(), movement_speed, (acceleration * 1) * _delta)
-		
-	
-	var new_vector: Vector3 = (next_path_position - current_agent_position).normalized()
 
+	var new_vector: Vector3 = (next_path_position - current_agent_position).normalized()
 
 	# If the path_desired_distance was changed, change it back
 	if nav_agent.path_desired_distance != start_path_desired_distance: nav_agent.path_desired_distance = start_path_desired_distance
@@ -341,17 +316,11 @@ func _navigate(_delta):
 	# if you detect an obstacle, call avoid_obstacle
 	if near_obstacle:
 		new_vector = _avoid_obstacle(new_vector, next_path_position)
-	
-	# remove verticle
-	#new_vector.y = 0
-	
 
-	
 	# apply speed to the normalized vector
 	var new_velocity = new_vector * _speed
 
 	rotate_target = next_path_position
-
 
 	apply_nav_velocity(new_velocity)
 
@@ -359,8 +328,6 @@ func _navigate(_delta):
 func _avoid_obstacle(_v3 : Vector3, _next_pos : Vector3) -> Vector3:
 	var left_velocity = _v3.rotated(Vector3(0,1,0), PI/2)
 	var right_velocity = _v3.rotated(Vector3(0,1,0), -PI/2)
-	
-	# print(obstacle_distance)
 
 	if obstacle_distance.x > obstacle_distance.z: # if there's a closer collion on the left, go right
 		_v3 = _v3.lerp(right_velocity, obstacle_distance.x).normalized()
@@ -371,7 +338,6 @@ func _avoid_obstacle(_v3 : Vector3, _next_pos : Vector3) -> Vector3:
 
 	# if the final destination is inside the obstacle, unstuck yourself
 	if global_position.distance_to(nav_agent.get_final_position()) < obstacle_path_skip_distance:
-		#print("destination inside obstacle, unstucking...")
 		_nav_unstuck()
 
 	# if the path position is close and you are hitting an obstacle, it is likely inside the obstacle, so skip it
@@ -391,7 +357,6 @@ func _check_out_of_bounds():
 		global_position = start_position
 		linear_velocity = Vector3.ZERO
 		printerr("POSITION RESET of ", self.name)
-		###_integrate_forces()
 		return
 
 
@@ -413,7 +378,6 @@ func die():
 	freeze = true
 	collision_layer = 0
 	collision_mask = 0
-	#anim_pl.play("die")
 	anim_sm.start("die")
 
 	# disable all important things that run
@@ -505,10 +469,8 @@ func calc_fall_damage(from_zero : bool = false):
 		
 
 func _nav_unstuck():
-	# you cant set a target while unstuck is active so turn it off, set a target, and then turn it on
+	# you cant set a target while unstuck is active so turn it off
 	nav_unstuck_active = false
-	#new_wander_target(3.0)
-	#nav_unstuck_active = true
 
 func entered_enable_area():
 	
