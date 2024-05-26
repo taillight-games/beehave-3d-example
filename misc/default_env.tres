@@ -1,0 +1,24 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://c4cxd4w3vogf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d5nml"]
+sun_curve = 0.113679
+use_debanding = false
+
+[sub_resource type="Sky" id="Sky_hvlwe"]
+sky_material = SubResource("ProceduralSkyMaterial_d5nml")
+radiance_size = 2
+
+[resource]
+background_mode = 2
+background_color = Color(1, 1, 1, 1)
+sky = SubResource("Sky_hvlwe")
+ambient_light_source = 2
+ambient_light_color = Color(0.631373, 0.631373, 0.631373, 1)
+ambient_light_energy = 1.2
+tonemap_mode = 3
+fog_light_color = Color(0.458824, 0.494118, 0.321569, 1)
+fog_light_energy = 0.23
+fog_density = 0.055
+adjustment_brightness = 0.01
+adjustment_contrast = 0.01
+adjustment_saturation = 0.01

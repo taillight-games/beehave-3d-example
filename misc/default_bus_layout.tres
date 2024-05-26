@@ -1,0 +1,61 @@
+[gd_resource type="AudioBusLayout" load_steps=5 format=3 uid="uid://bl4t2s3yig0dw"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_eelix"]
+resource_name = "Reverb"
+room_size = 0.35
+damping = 0.06
+spread = 0.83
+dry = 0.31
+wet = 0.1
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_ynrtt"]
+resource_name = "Compressor"
+threshold = -4.1
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_xahlc"]
+resource_name = "Reverb"
+room_size = 0.14
+
+[sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_o3m4a"]
+resource_name = "Amplify"
+volume_db = 3.32
+
+[resource]
+bus/1/name = &"SFX"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectReverb_eelix")
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource("AudioEffectCompressor_ynrtt")
+bus/1/effect/1/enabled = true
+bus/2/name = &"Music"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 6.02
+bus/2/send = &"Master"
+bus/2/effect/0/effect = SubResource("AudioEffectReverb_xahlc")
+bus/2/effect/0/enabled = true
+bus/3/name = &"Bullets"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Master"
+bus/4/name = &"Boost"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 6.02
+bus/4/send = &"SFX"
+bus/4/effect/0/effect = SubResource("AudioEffectAmplify_o3m4a")
+bus/4/effect/0/enabled = true
+bus/5/name = &"Lower"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = -3.09691
+bus/5/send = &"Master"

@@ -1,0 +1,226 @@
+[gd_scene load_steps=30 format=3 uid="uid://msvn57p6mohd"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_qnonj"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="2_c2sgg"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_nok2i"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/succeeder.gd" id="5_t1goe"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="6_gmqqv"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_is_in_melee_range.gd" id="7_r34lk"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/time_limiter.gd" id="8_umuft"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_face_enemy.gd" id="9_p0je6"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_is_cooldown_done.gd" id="10_ruy4h"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_anim_travel.gd" id="11_mpau1"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_start_cooldown.gd" id="12_13gfa"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_empty.gd" id="13_iy5ov"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_get_enemy.gd" id="14_xpxx0"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_is_obstacle_close.gd" id="15_8is5x"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_set_target_enemy.gd" id="15_wbjxx"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_face_enemy_ranged.gd" id="16_iwvuf"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_start_navigation.gd" id="16_pw1sl"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_wait_for_melee_range.gd" id="17_4bat1"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_stop_rotate.gd" id="17_8k1qc"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_back_up.gd" id="18_cgwsy"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/delayer.gd" id="18_msseb"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_is_enemy_in_range.gd" id="18_msxtw"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_is_enemy_distance.gd" id="18_ufsrk"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/until_success.gd" id="19_oar50"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_new_wander_target.gd" id="20_jjumk"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_wait_for_range.gd" id="21_aev0k"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_distance_from_start.gd" id="21_p8gxu"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_wait_for_destination.gd" id="22_jkjbv"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_stop_navigation.gd" id="23_rkmhx"]
+
+[node name="TestEnemy2" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_qnonj")
+blackboard = NodePath("@Node@196213")
+actor = NodePath("")
+
+[node name="SelectorReactiveComposite" type="Node" parent="."]
+script = ExtResource("2_c2sgg")
+
+[node name="Combat" type="Node" parent="SelectorReactiveComposite"]
+script = ExtResource("3_nok2i")
+
+[node name="GetEnemy" type="Node" parent="SelectorReactiveComposite/Combat"]
+script = ExtResource("14_xpxx0")
+
+[node name="AlwaysSucceedDecorator" type="Node" parent="SelectorReactiveComposite/Combat"]
+script = ExtResource("5_t1goe")
+
+[node name="SelectorComposite" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator"]
+script = ExtResource("6_gmqqv")
+
+[node name="in melee range" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite"]
+script = ExtResource("3_nok2i")
+
+[node name="make sure you can hit" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range"]
+script = ExtResource("3_nok2i")
+
+[node name="IsInMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/make sure you can hit"]
+script = ExtResource("7_r34lk")
+
+[node name="TimeLimiterDecorator2" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/make sure you can hit"]
+script = ExtResource("8_umuft")
+wait_time = 0.4
+
+[node name="FaceEnemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/make sure you can hit/TimeLimiterDecorator2"]
+script = ExtResource("9_p0je6")
+
+[node name="attack" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range"]
+script = ExtResource("3_nok2i")
+
+[node name="StopNavigation" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/attack"]
+script = ExtResource("23_rkmhx")
+
+[node name="IsCooldownDone" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/attack"]
+script = ExtResource("10_ruy4h")
+
+[node name="anim attack" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/attack"]
+script = ExtResource("11_mpau1")
+animation_name = &"attack_1"
+
+[node name="StartCooldown" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range/attack"]
+script = ExtResource("12_13gfa")
+cooldown_time = 0.6
+
+[node name="Empty" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/in melee range"]
+script = ExtResource("13_iy5ov")
+
+[node name="shoot" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite"]
+script = ExtResource("3_nok2i")
+
+[node name="IsCooldownDone" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot"]
+script = ExtResource("10_ruy4h")
+cooldown_type = 1
+
+[node name="GetEnemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot"]
+script = ExtResource("14_xpxx0")
+
+[node name="IsEnemyInRange" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot"]
+script = ExtResource("18_msxtw")
+current_range = 9.0
+
+[node name="wall detect" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot"]
+script = ExtResource("6_gmqqv")
+
+[node name="make sure you arent against a wall" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect"]
+script = ExtResource("3_nok2i")
+
+[node name="IsObstacleClose" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/make sure you arent against a wall"]
+script = ExtResource("15_8is5x")
+
+[node name="SetTargetBackwards" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/make sure you arent against a wall"]
+script = ExtResource("18_cgwsy")
+distance = 3.0
+
+[node name="StartNavigation" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/make sure you arent against a wall"]
+script = ExtResource("16_pw1sl")
+
+[node name="StartCooldown" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/make sure you arent against a wall"]
+script = ExtResource("12_13gfa")
+cooldown_type = 1
+cooldown_time = 2.0
+
+[node name="TimeLimiterDecorator2" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/make sure you arent against a wall"]
+script = ExtResource("8_umuft")
+wait_time = 2.0
+
+[node name="WaitForDestination" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/make sure you arent against a wall/TimeLimiterDecorator2"]
+script = ExtResource("22_jkjbv")
+
+[node name="actually shoot" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect"]
+script = ExtResource("3_nok2i")
+
+[node name="FaceEnemyRanged" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/actually shoot"]
+script = ExtResource("16_iwvuf")
+
+[node name="anim ranged" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/actually shoot"]
+script = ExtResource("11_mpau1")
+animation_name = &"attack_ranged"
+
+[node name="StartCooldown" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/actually shoot"]
+script = ExtResource("12_13gfa")
+cooldown_type = 1
+cooldown_time = 5.0
+
+[node name="StopFaceEnemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/shoot/wall detect/actually shoot"]
+script = ExtResource("17_8k1qc")
+
+[node name="goto near enemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite"]
+script = ExtResource("3_nok2i")
+
+[node name="IsEnemyDistance" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto near enemy"]
+script = ExtResource("18_ufsrk")
+upper_range = 25.0
+lower_range = 4.0
+
+[node name="SetTargetEnemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto near enemy"]
+script = ExtResource("15_wbjxx")
+
+[node name="StartNavigation" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto near enemy"]
+script = ExtResource("16_pw1sl")
+
+[node name="TimeLimiterDecorator" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto near enemy"]
+script = ExtResource("8_umuft")
+wait_time = 0.2
+
+[node name="WaitForRange" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto near enemy/TimeLimiterDecorator"]
+script = ExtResource("21_aev0k")
+
+[node name="goto enemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite"]
+script = ExtResource("3_nok2i")
+
+[node name="IsEnemyInRange" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto enemy"]
+script = ExtResource("18_msxtw")
+current_range = 3.99
+
+[node name="GetEnemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto enemy"]
+script = ExtResource("14_xpxx0")
+
+[node name="SetTargetEnemy" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto enemy"]
+script = ExtResource("15_wbjxx")
+
+[node name="StartNavigation" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto enemy"]
+script = ExtResource("16_pw1sl")
+
+[node name="TimeLimiterDecorator" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto enemy"]
+script = ExtResource("8_umuft")
+wait_time = 0.2
+
+[node name="WaitForMeleeRange" type="Node" parent="SelectorReactiveComposite/Combat/AlwaysSucceedDecorator/SelectorComposite/goto enemy/TimeLimiterDecorator"]
+script = ExtResource("17_4bat1")
+
+[node name="idle" type="Node" parent="SelectorReactiveComposite"]
+script = ExtResource("18_msseb")
+wait_time = 3.0
+
+[node name="SequenceComposite" type="Node" parent="SelectorReactiveComposite/idle"]
+script = ExtResource("3_nok2i")
+
+[node name="UntilSuccessDecorator" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite"]
+script = ExtResource("19_oar50")
+
+[node name="New Wander Point" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite/UntilSuccessDecorator"]
+script = ExtResource("3_nok2i")
+
+[node name="NewWanderTarget" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite/UntilSuccessDecorator/New Wander Point"]
+script = ExtResource("20_jjumk")
+radius = 5.0
+
+[node name="DistanceFromStart" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite/UntilSuccessDecorator/New Wander Point"]
+script = ExtResource("21_p8gxu")
+use_agent_max_distance = true
+use_point = 1
+
+[node name="StartNavigation" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite"]
+script = ExtResource("16_pw1sl")
+
+[node name="TimeLimiterDecorator2" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite"]
+script = ExtResource("8_umuft")
+wait_time = 6.0
+
+[node name="WaitForDestination" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite/TimeLimiterDecorator2"]
+script = ExtResource("22_jkjbv")
+
+[node name="StopNavigation" type="Node" parent="SelectorReactiveComposite/idle/SequenceComposite"]
+script = ExtResource("23_rkmhx")

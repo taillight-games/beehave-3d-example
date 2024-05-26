@@ -1,0 +1,132 @@
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://bf1cbpqrujq20"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_dd7dw"]
+operator = 1
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_cnugq"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_owxsl"]
+parameter_name = "Scale"
+default_value_enabled = true
+default_value = 1.0
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_hyan5"]
+input_name = "camera_position_world"
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_fwu3w"]
+parameter_name = "CloudsTex"
+texture_filter = 3
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeVaryingGetter" id="VisualShaderNodeVaryingGetter_rp125"]
+varying_name = "v_tex"
+varying_type = 4
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_db7gi"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_nn1j2"]
+varying_name = "v_tex"
+varying_type = 4
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_schlick_ggx, unshaded, world_vertex_coords, fog_disabled;
+
+
+// Varyings
+varying vec3 v_tex;
+
+uniform float Scale = 1;
+uniform sampler2D CloudsTex : filter_nearest_mipmap, repeat_enable;
+
+
+// TextureParameterTriplanar
+	vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+		vec4 samp = vec4(0.0);
+		samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+		samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+		samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+		return samp;
+	}
+
+	uniform vec3 triplanar_scale = vec3(1.0, 1.0, 1.0);
+	uniform vec3 triplanar_offset;
+	uniform float triplanar_sharpness = 0.5;
+
+	varying vec3 triplanar_power_normal;
+	varying vec3 triplanar_pos;
+
+void vertex() {
+// TextureParameterTriplanar
+	{
+		triplanar_power_normal = pow(abs(NORMAL), vec3(triplanar_sharpness));
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		triplanar_pos *= vec3(1.0, -1.0, 1.0);
+	}
+// Input:2
+	vec3 n_out2p0 = VERTEX;
+
+
+// VaryingSetter:3
+	v_tex = n_out2p0;
+
+
+}
+
+void fragment() {
+// VaryingGetter:9
+	vec3 n_out9p0 = v_tex;
+
+
+// Input:15
+	vec3 n_out15p0 = CAMERA_POSITION_WORLD;
+
+
+// VectorOp:10
+	vec3 n_out10p0 = n_out9p0 - n_out15p0;
+
+
+// FloatParameter:14
+	float n_out14p0 = Scale;
+
+
+// VectorOp:13
+	vec3 n_out13p0 = n_out10p0 * vec3(n_out14p0);
+
+
+// TextureParameterTriplanar:3
+	vec4 n_out3p0 = triplanar_texture(CloudsTex, triplanar_power_normal, n_out13p0);
+
+
+// Output:0
+	ALPHA = n_out3p0.x;
+
+
+}
+"
+modes/cull = 2
+flags/unshaded = true
+flags/world_vertex_coords = true
+flags/fog_disabled = true
+varyings/v_tex = "0,4"
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_db7gi")
+nodes/vertex/2/position = Vector2(-240, 220)
+nodes/vertex/3/node = SubResource("VisualShaderNodeVaryingSetter_nn1j2")
+nodes/vertex/3/position = Vector2(52.9643, 225.413)
+nodes/vertex/connections = PackedInt32Array(2, 0, 3, 0)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTextureParameterTriplanar_fwu3w")
+nodes/fragment/3/position = Vector2(-180, 60)
+nodes/fragment/9/node = SubResource("VisualShaderNodeVaryingGetter_rp125")
+nodes/fragment/9/position = Vector2(-660, 160)
+nodes/fragment/10/node = SubResource("VisualShaderNodeVectorOp_dd7dw")
+nodes/fragment/10/position = Vector2(-480, 160)
+nodes/fragment/13/node = SubResource("VisualShaderNodeVectorOp_cnugq")
+nodes/fragment/13/position = Vector2(-340, 200)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatParameter_owxsl")
+nodes/fragment/14/position = Vector2(-740, 360)
+nodes/fragment/15/node = SubResource("VisualShaderNodeInput_hyan5")
+nodes/fragment/15/position = Vector2(-800, 260)
+nodes/fragment/connections = PackedInt32Array(9, 0, 10, 0, 10, 0, 13, 0, 14, 0, 13, 1, 3, 0, 0, 1, 15, 0, 10, 1, 13, 0, 3, 1)

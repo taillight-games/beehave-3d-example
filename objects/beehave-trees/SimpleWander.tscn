@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://bbjni644vcqwl"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_nvhg6"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_swgyd"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="3_d727g"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_is_at_destination.gd" id="3_iwucb"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_fwm51"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_anim_travel.gd" id="6_2kyg0"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/delayer.gd" id="6_s56b4"]
+[ext_resource type="Script" path="res://scripts/beehave/bh_new_wander_target.gd" id="7_ui1mk"]
+
+[node name="SimpleWander" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_nvhg6")
+blackboard = NodePath("@Node@17503")
+actor = NodePath("")
+
+[node name="SelectorComposite2" type="Node" parent="."]
+script = ExtResource("2_swgyd")
+
+[node name="InverterDecorator" type="Node" parent="SelectorComposite2"]
+script = ExtResource("3_d727g")
+
+[node name="IsAtDestination" type="Node" parent="SelectorComposite2/InverterDecorator"]
+script = ExtResource("3_iwucb")
+
+[node name="SequenceComposite" type="Node" parent="SelectorComposite2"]
+script = ExtResource("4_fwm51")
+
+[node name="AnimTravel" type="Node" parent="SelectorComposite2/SequenceComposite"]
+script = ExtResource("6_2kyg0")
+animation_name = &"attack_1"
+
+[node name="DelayDecorator" type="Node" parent="SelectorComposite2/SequenceComposite"]
+script = ExtResource("6_s56b4")
+wait_time = 3.0
+
+[node name="NewWanderTarget" type="Node" parent="SelectorComposite2/SequenceComposite/DelayDecorator"]
+script = ExtResource("7_ui1mk")

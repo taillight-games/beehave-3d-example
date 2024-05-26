@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck4oojwfbs28y"]
+
+[ext_resource type="Script" path="res://scripts/misc/shadow_caster.gd" id="1_hd0eo"]
+[ext_resource type="Material" uid="uid://mqiw67hqph8o" path="res://assets/materials/shadow.tres" id="2_bmt21"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_uf0ca"]
+material = ExtResource("2_bmt21")
+size = Vector2(0.7, 0.7)
+orientation = 1
+
+[node name="ShadowCaster" type="RayCast3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0800887, 0)
+target_position = Vector3(0, -10, 0)
+collision_mask = 15
+script = ExtResource("1_hd0eo")
+
+[node name="shadow" type="MeshInstance3D" parent="."]
+layers = 16
+mesh = SubResource("QuadMesh_uf0ca")

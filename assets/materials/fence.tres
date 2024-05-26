@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bk0rqjdcmjtt0"]
+
+[ext_resource type="Texture2D" uid="uid://dnnyfo1xp27s3" path="res://assets/textures/fence-32-1.png" id="1_ft2qa"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.535
+alpha_antialiasing_mode = 0
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_ft2qa")
+texture_filter = 0

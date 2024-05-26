@@ -1,0 +1,95 @@
+[gd_scene load_steps=15 format=3 uid="uid://bb4fafxi72ab5"]
+
+[ext_resource type="ArrayOccluder3D" uid="uid://dxrnmsxi5migb" path="res://misc/test-level-1.occ" id="1_5r3uw"]
+[ext_resource type="NavigationMesh" uid="uid://c7u7dsa81cbdm" path="res://misc/test-level-1-nav-mesh.tres" id="1_qjbi1"]
+[ext_resource type="Environment" uid="uid://c4cxd4w3vogf" path="res://misc/default_env.tres" id="2_fem1t"]
+[ext_resource type="PackedScene" uid="uid://do257w10o56xj" path="res://assets/models/forest-level-test.blend" id="3_k3dvy"]
+[ext_resource type="Material" uid="uid://bxsrpokc2g0mm" path="res://assets/materials/grass-32.tres" id="4_k22wd"]
+[ext_resource type="Material" uid="uid://bd8xo0abeyq1j" path="res://assets/materials/rock-32.tres" id="5_pfmvx"]
+[ext_resource type="Material" uid="uid://cktpnfxywi6l3" path="res://assets/materials/bg_trees.tres" id="6_blbha"]
+[ext_resource type="Material" uid="uid://bqxdxu7vu0mg4" path="res://assets/materials/grass-rock-edge.tres" id="7_1ybow"]
+[ext_resource type="Material" uid="uid://f2kijod18ox7" path="res://assets/materials/bg_trees-dark.tres" id="8_jrl37"]
+[ext_resource type="Material" uid="uid://deivqr8yqilku" path="res://assets/materials/vines.tres" id="8_m4snm"]
+[ext_resource type="Material" uid="uid://bk0rqjdcmjtt0" path="res://assets/materials/fence.tres" id="9_qoj2e"]
+[ext_resource type="Material" uid="uid://cvvoylf0gsy2w" path="res://assets/materials/brick.tres" id="14_np4dw"]
+[ext_resource type="PackedScene" uid="uid://bmpt13tisf6mq" path="res://objects/slime_agent.tscn" id="17_0k68m"]
+[ext_resource type="PackedScene" uid="uid://cfedvat670073" path="res://scenes/player.tscn" id="19_5on6n"]
+
+[node name="Test-level-1" type="Node3D"]
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.4818, 7.5373, -68.2586)
+occluder = ExtResource("1_5r3uw")
+bake_mask = 4293918721
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("1_qjbi1")
+use_edge_connections = false
+
+[node name="forest-level-test" parent="NavigationRegion3D" instance=ExtResource("3_k3dvy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.965103, 0.00115195, 2.44225)
+
+[node name="main 1" parent="NavigationRegion3D/forest-level-test" index="0" groups=["room1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.403595, 0, -46.1229)
+surface_material_override/0 = ExtResource("4_k22wd")
+surface_material_override/1 = ExtResource("5_pfmvx")
+surface_material_override/2 = ExtResource("6_blbha")
+surface_material_override/3 = ExtResource("7_1ybow")
+surface_material_override/4 = ExtResource("8_jrl37")
+
+[node name="CollisionShape3D" parent="NavigationRegion3D/forest-level-test/main 1/StaticBody3D" index="0" groups=["room1"]]
+
+[node name="edge-vines" parent="NavigationRegion3D/forest-level-test" index="1" groups=["room1"]]
+transform = Transform3D(61.7494, 0, 0, 0, 61.7494, 0, 0, 0, 61.7494, -0.462242, 0, -46.1229)
+surface_material_override/0 = ExtResource("8_m4snm")
+
+[node name="fence-1" parent="NavigationRegion3D/forest-level-test" index="2" groups=["room1"]]
+transform = Transform3D(61.7494, 0, 0, 0, 61.7494, 0, 0, 0, 61.7494, -0.403595, 0, -46.1229)
+surface_material_override/0 = ExtResource("9_qoj2e")
+
+[node name="fence" parent="NavigationRegion3D/forest-level-test" index="3" groups=["room1"]]
+transform = Transform3D(61.7494, 0, 0, 0, 61.7494, 0, 0, 0, 61.7494, -0.403595, 0, -46.1229)
+
+[node name="Static Props" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.5957, 4.7514, -24.6125)
+use_collision = true
+size = Vector3(3.02356, 1, 4.25403)
+material = ExtResource("14_np4dw")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.9073, 5.25543, -24.6125)
+use_collision = true
+size = Vector3(3.02356, 1, 4.25403)
+material = ExtResource("14_np4dw")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.8842, 5.84836, -24.6125)
+use_collision = true
+size = Vector3(3.02356, 1, 4.25403)
+material = ExtResource("14_np4dw")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.127102, -1.93077, -0.153597)
+use_collision = true
+size = Vector3(11.8946, 1, 12.2216)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_fem1t")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.420745, -0.875414, 0.237957, 0.138838, 0.197077, 0.970508, -0.896492, 0.441374, 0.0386212, 0.797561, 4.08256, -0.210869)
+light_energy = 0.597
+light_indirect_energy = 0.866
+
+[node name="Player" parent="." instance=ExtResource("19_5on6n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 0, -54)
+
+[node name="Agents" type="Node3D" parent="."]
+
+[node name="Slime-agent" parent="Agents" instance=ExtResource("17_0k68m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.23021, 3.80584e-05, -50.203)
+debug_mode = true
+
+[editable path="NavigationRegion3D/forest-level-test"]

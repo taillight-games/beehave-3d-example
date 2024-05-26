@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bd8xo0abeyq1j"]
+
+[ext_resource type="Texture2D" uid="uid://ogf3nlwpmjvv" path="res://assets/textures/rock-32-1.png" id="1_8grwc"]
+
+[resource]
+cull_mode = 2
+shading_mode = 2
+diffuse_mode = 2
+specular_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_8grwc")
+uv1_scale = Vector3(43.11, 43.11, 43.11)
+uv1_triplanar_sharpness = 8.16138
+uv1_world_triplanar = true
+texture_filter = 2
