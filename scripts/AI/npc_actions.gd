@@ -35,7 +35,6 @@ func a_action_ended():
 	timer.stop()
 	action_in_progress = false
 	action_ended.emit()
-	#parent.anim_pl.play(default_animation_name)
 	parent.bh_tree.enabled = true
 	parent.toggle_navigation(true)
 

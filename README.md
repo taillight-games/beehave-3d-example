@@ -3,13 +3,15 @@
 ### Tutorial and Demo
 
 In this video, I go over the contents of the repository as well as an overview of both behavior trees in general and specifically how BeeHave works.
-[![tutorial-thumbnail](https://img.youtube.com/vi/n0gVEA1dyPQ/0.jpg)](https://www.youtube.com/watch?v=n0gVEA1dyPQ)
+
+[![tutorial-thumbnail](https://img.youtube.com/vi/9Kzmqpm6WL4/0.jpg)](https://www.youtube.com/watch?v=9Kzmqpm6WL4)
+
 
 ### Description
 
-BeeHave is a great asset for behavior trees in Godot, but I found learning it to be difficult.
-Whenever I want to learn a new asset, I mainly learn by tearing apart other people's code. If that's you, this repository is for you! 
-This is the implimentation of BeeHave in my current  in-progress project: Ruins of Calica, ripped straight out of that game and put into this repository.
+BeeHave is a great asset for behavior trees in Godot, but I found it difficult to learn.
+Whenever I want to learn a new asset, I like to just tear apart some example projects. If that's you, this repository is for you! 
+This is the implimentation of BeeHave in my current in-progress project: Ruins of Calica, ripped straight out of that game and put into this repository.
 
 ### Contents:
 

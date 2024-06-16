@@ -90,6 +90,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 0, -54)
 
 [node name="Slime-agent" parent="Agents" instance=ExtResource("17_0k68m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.23021, 3.80584e-05, -50.203)
-debug_mode = true
 
 [editable path="NavigationRegion3D/forest-level-test"]

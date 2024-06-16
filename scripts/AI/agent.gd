@@ -237,7 +237,6 @@ func set_target(_target: Vector3):
 	var map = nav_agent.get_navigation_map()
 
 	var _navmesh_pos = NavigationServer3D.map_get_closest_point(map, _pos)
-	## print(_navmesh_pos, " ", _pos)
 
 	nav_agent.target_position = _navmesh_pos
 

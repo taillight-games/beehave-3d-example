@@ -213,10 +213,9 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../slime-1/AnimationPlayer")
 parameters/walk/blend_position = 0.037272
 
-[node name="BHTree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("9_2gh7b")]
+[node name="BHTree" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("9_2gh7b")]
 actor_node_path = NodePath("..")
 blackboard = NodePath("../Blackboard")
-actor = NodePath("..")
 
 [node name="Blackboard" type="Node" parent="."]
 script = ExtResource("10_xjgab")
@@ -307,9 +306,9 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Skeleton3D" parent="slime-1/slime" index="0"]
 bones/0/rotation = Quaternion(-2.98023e-08, 1.19209e-07, -2.11758e-22, 1)
-bones/1/scale = Vector3(1.0015, 1.00012, 1.00021)
-bones/2/position = Vector3(1.75235e-09, 0.13715, -0.0073841)
-bones/2/rotation = Quaternion(-0.0139369, 8.06387e-20, -3.28153e-09, 0.999903)
+bones/1/scale = Vector3(0.999449, 1.00068, 1.00121)
+bones/2/position = Vector3(2.04441e-09, 0.142521, -0.00754589)
+bones/2/rotation = Quaternion(-0.0147723, -2.98879e-19, -4.76521e-09, 0.999891)
 
 [node name="slime-mesh" parent="slime-1/slime/Skeleton3D" index="0"]
 layers = 2

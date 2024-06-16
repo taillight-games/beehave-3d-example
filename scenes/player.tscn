@@ -2251,6 +2251,7 @@ bones/24/rotation = Quaternion(-0.100298, 4.3491e-08, 4.38419e-09, 0.994957)
 bones/24/scale = Vector3(1, 1, 1)
 
 [node name="Gobot" type="MeshInstance3D" parent="gobot/Skeleton3D"]
+layers = 16
 mesh = SubResource("ArrayMesh_je0dh")
 skin = SubResource("Skin_radit")
 

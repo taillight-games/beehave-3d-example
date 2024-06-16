@@ -22,8 +22,8 @@
 
 [node name="SlimeEnemy" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_t3ikh")
-blackboard = NodePath("@Node@17849")
-actor = NodePath("")
+blackboard = NodePath("@Node@17848")
+actor = NodePath("..")
 
 [node name="SelectorReactiveComposite" type="Node" parent="."]
 script = ExtResource("2_cceen")
