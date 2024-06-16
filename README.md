@@ -31,7 +31,11 @@ https://github.com/bitbrain/beehave
 ### Recommended Resources:
 
 https://www.gamedeveloper.com/programming/behavior-trees-for-ai-how-they-work - Behavior trees for AI: How they work
+
 https://youtu.be/PDlAlutle_c - Godot 4.1: Behavior Trees with Beehave: rant and how to start using them..
+
 https://youtu.be/YHUQY2Kea9U - Behavior Trees - Godot Game Dev (BETTER AUDIO)
+
 https://bitbra.in/beehave/#/ - BeeHave docs
+
 https://github.com/bitbrain/beehave - BeeHave Github Page
