@@ -4,7 +4,7 @@
 
 In this video, I go over the contents of the repository as well as an overview of both behavior trees in general and specifically how BeeHave works.
 
-[![tutorial-thumbnail](https://img.youtube.com/vi/AUfzET91m0s /0.jpg)](https://www.youtube.com/watch?v=AUfzET91m0s)
+[![tutorial-thumbnail](https://img.youtube.com/vi/AUfzET91m0s/0.jpg)](https://www.youtube.com/watch?v=AUfzET91m0s)
 
 
 ### Description
