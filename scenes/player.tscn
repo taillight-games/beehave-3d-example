@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cfedvat670073"]
+[gd_scene load_steps=32 format=3 uid="uid://cfedvat670073"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_t0xh4"]
 [ext_resource type="Texture2D" uid="uid://bt5o0sr6peltq" path="res://assets/models/gobot/model/gobot_gobot_diffuse.png" id="2_wip06"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://d28w5bql3g21l" path="res://assets/models/gobot/model/gobot_gobot_normal.png" id="4_si8bj"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="5_pxu3x"]
 [ext_resource type="ArrayMesh" uid="uid://deu06eho4c74" path="res://assets/models/cloud.res" id="6_nkgvq"]
-[ext_resource type="AudioStream" uid="uid://ncq6fpsrcmjh" path="res://assets/audio/SFX/walking.ogg" id="7_asqdb"]
 [ext_resource type="Script" path="res://scripts/Damageable/agent_damageable.gd" id="8_fxj8s"]
 [ext_resource type="Script" path="res://scripts/AI/damageable_settings.gd" id="9_7mvjd"]
 [ext_resource type="Script" path="res://scripts/misc/hit_flash.gd" id="10_3j8ms"]
@@ -2281,11 +2280,6 @@ direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0.1, 0)
 scale_amount_min = 0.75
 scale_amount_curve = SubResource("Curve_ooin1")
-
-[node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("7_asqdb")
-pitch_scale = 0.75
-autoplay = true
 
 [node name="Damageable" type="Area3D" parent="."]
 collision_layer = 512

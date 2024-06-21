@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="BeeHave-3D-Example"
-run/main_scene="res://scenes/test-level-1.tscn"
+run/main_scene="res://scenes/demo-level.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 scenes/loading_scene_path="res://addons/yet_another_scene_manager/Scenes/Loading.tscn"
@@ -19,14 +19,12 @@ scenes/error_scene_path="res://addons/yet_another_scene_manager/Scenes/Error.tsc
 
 [audio]
 
-buses/default_bus_layout="res://misc/default_bus_layout.tres"
+buses/default_bus_layout=""
 
 [autoload]
 
-AudioManager="*res://scenes/AudioManager.tscn"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
-GameManager="*res://scripts/GameManager.gd"
 
 [display]
 

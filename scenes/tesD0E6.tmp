@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://bb4fafxi72ab5"]
 
-[ext_resource type="ArrayOccluder3D" uid="uid://dxrnmsxi5migb" path="res://misc/test-level-1.occ" id="1_5r3uw"]
-[ext_resource type="NavigationMesh" uid="uid://c7u7dsa81cbdm" path="res://misc/test-level-1-nav-mesh.tres" id="1_qjbi1"]
+[ext_resource type="ArrayOccluder3D" uid="uid://dxrnmsxi5migb" path="res://test-level-1.occ" id="1_5r3uw"]
+[ext_resource type="NavigationMesh" uid="uid://c7u7dsa81cbdm" path="res://test-level-1-nav-mesh.tres" id="1_qjbi1"]
 [ext_resource type="Environment" uid="uid://c4cxd4w3vogf" path="res://misc/default_env.tres" id="2_fem1t"]
 [ext_resource type="PackedScene" uid="uid://do257w10o56xj" path="res://assets/models/forest-level-test.blend" id="3_k3dvy"]
 [ext_resource type="Material" uid="uid://bxsrpokc2g0mm" path="res://assets/materials/grass-32.tres" id="4_k22wd"]

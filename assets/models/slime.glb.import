@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ip0bsv5a6a2a"
-path="res://.godot/imported/slime-1.blend-c84d5d5aeaa6c07601f4f897172fc773.scn"
+uid="uid://dl7svrey4buhx"
+path="res://.godot/imported/slime.glb-497f91b8feb9816dcbfca8c93879e7ba.scn"
 
 [deps]
 
-source_file="res://assets/models/slime-1.blend"
-dest_files=["res://.godot/imported/slime-1.blend-c84d5d5aeaa6c07601f4f897172fc773.scn"]
+source_file="res://assets/models/slime.glb"
+dest_files=["res://.godot/imported/slime.glb-497f91b8feb9816dcbfca8c93879e7ba.scn"]
 
 [params]
 
@@ -3631,7 +3631,7 @@ _subresources={
 },
 "die": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": true,
+"save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "res://assets/animation/die.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
@@ -5430,7 +5430,7 @@ _subresources={
 },
 "idle": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": true,
+"save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "res://assets/animation/idle.res",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
@@ -7229,7 +7229,7 @@ _subresources={
 },
 "walk": {
 "save_to_file/enabled": true,
-"save_to_file/keep_custom_tracks": true,
+"save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "res://assets/animation/walk.res",
 "settings/loop_mode": 1,
 "slice_1/end_frame": 0,
@@ -9030,19 +9030,3 @@ _subresources={
 }
 gltf/naming_version=1
 gltf/embedded_image_handling=1
-blender/nodes/visible=0
-blender/nodes/punctual_lights=true
-blender/nodes/cameras=true
-blender/nodes/custom_properties=true
-blender/nodes/modifiers=1
-blender/meshes/colors=false
-blender/meshes/uvs=true
-blender/meshes/normals=true
-blender/meshes/tangents=true
-blender/meshes/skins=2
-blender/meshes/export_bones_deforming_mesh_only=false
-blender/materials/unpack_enabled=true
-blender/materials/export_materials=1
-blender/animation/limit_playback=true
-blender/animation/always_sample=true
-blender/animation/group_tracks=true

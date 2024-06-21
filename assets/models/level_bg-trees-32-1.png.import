@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://l5sotdhqra2m"
-path="res://.godot/imported/brick-32-3.png-93cd91c0d072707757d616d14722c6bd.ctex"
+uid="uid://y1euheofky6v"
+path="res://.godot/imported/level_bg-trees-32-1.png-3a944d8edc3896d1f5d3c3cd417cd51e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/brick-32-3.png"
-dest_files=["res://.godot/imported/brick-32-3.png-93cd91c0d072707757d616d14722c6bd.ctex"]
+source_file="res://assets/models/level_bg-trees-32-1.png"
+dest_files=["res://.godot/imported/level_bg-trees-32-1.png-3a944d8edc3896d1f5d3c3cd417cd51e.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

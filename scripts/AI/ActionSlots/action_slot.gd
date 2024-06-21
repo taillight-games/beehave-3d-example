@@ -12,7 +12,6 @@ func _ready():
 func on_start_action():
 	assert(false, "Error: start_action not implimented in ActionSlot extension class")
 
-
 func on_end_action():
 	assert(false, "Error: end_action not implimented in ActionSlot extension class")
 

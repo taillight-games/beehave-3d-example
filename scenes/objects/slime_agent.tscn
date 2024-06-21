@@ -1,28 +1,32 @@
-[gd_scene load_steps=46 format=3 uid="uid://bmpt13tisf6mq"]
+[gd_scene load_steps=51 format=3 uid="uid://bmpt13tisf6mq"]
 
 [ext_resource type="Script" path="res://scripts/AI/enemy_agent.gd" id="1_yk70r"]
 [ext_resource type="Script" path="res://scripts/AI/enemy_actions.gd" id="2_gni4g"]
 [ext_resource type="Script" path="res://scripts/AI/ActionSlots/as_hit.gd" id="3_5pj2u"]
 [ext_resource type="Script" path="res://scripts/Damageable/attack_object.gd" id="3_qqejo"]
 [ext_resource type="Script" path="res://scripts/misc/AvoidObstacle.gd" id="5_xmx04"]
-[ext_resource type="PackedScene" uid="uid://ccql167ux68yk" path="res://objects/agent_audio.tscn" id="7_7sqxc"]
-[ext_resource type="PackedScene" uid="uid://bv4rxlhd6q4im" path="res://objects/beehave-trees/SlimeEnemy.tscn" id="9_2gh7b"]
+[ext_resource type="PackedScene" uid="uid://bv4rxlhd6q4im" path="res://scenes/objects/beehave-trees/SlimeEnemy.tscn" id="9_2gh7b"]
 [ext_resource type="Script" path="res://scripts/misc/GroundCheck.gd" id="9_wjhlj"]
 [ext_resource type="Script" path="res://scripts/AI/ai_senses.gd" id="10_ts6rw"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="10_xjgab"]
 [ext_resource type="Script" path="res://scripts/AI/damageable_settings.gd" id="11_deynq"]
 [ext_resource type="Script" path="res://scripts/Damageable/agent_damageable.gd" id="11_oj50g"]
-[ext_resource type="PackedScene" uid="uid://ck4oojwfbs28y" path="res://objects/shadow_caster.tscn" id="12_1g05n"]
-[ext_resource type="PackedScene" uid="uid://ip0bsv5a6a2a" path="res://assets/models/slime-1.blend" id="12_6rbna"]
 [ext_resource type="Script" path="res://scripts/misc/hit_flash.gd" id="13_o4ngg"]
-[ext_resource type="PackedScene" uid="uid://bllt0uoaesehx" path="res://objects/death_helper.tscn" id="13_ytlmc"]
+[ext_resource type="Script" path="res://scripts/misc/shadow_caster.gd" id="14_1kjit"]
 [ext_resource type="Material" uid="uid://b6ros7h2rxv3s" path="res://assets/materials/red_overlay.tres" id="14_28x42"]
 [ext_resource type="Material" uid="uid://dpodxrkgsgipw" path="res://assets/materials/slime.material" id="14_i5agv"]
-[ext_resource type="Shader" path="res://assets/shaders/text/crumble.gdshader" id="14_x4nof"]
+[ext_resource type="Shader" path="res://assets/shaders/crumble.gdshader" id="14_x4nof"]
+[ext_resource type="Script" path="res://scripts/misc/death_helper.gd" id="15_5jx1u"]
+[ext_resource type="Material" uid="uid://mqiw67hqph8o" path="res://assets/materials/shadow.tres" id="15_fr34s"]
+[ext_resource type="Material" uid="uid://cj4jr6crcu1gc" path="res://assets/materials/transparent.tres" id="17_a2ku2"]
+[ext_resource type="PackedScene" uid="uid://dl7svrey4buhx" path="res://assets/models/slime.glb" id="19_n114a"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fcs3r"]
 rough = true
 absorbent = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_oo4jn"]
+radius = 0.328706
 
 [sub_resource type="Resource" id="Resource_8svde"]
 script = ExtResource("3_qqejo")
@@ -102,8 +106,10 @@ damage_mult_in_vulnerable = 1.0
 radius = 0.345879
 height = 0.986866
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_oo4jn"]
-radius = 0.328706
+[sub_resource type="QuadMesh" id="QuadMesh_uf0ca"]
+material = ExtResource("15_fr34s")
+size = Vector2(0.7, 0.7)
+orientation = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vwum4"]
 
@@ -133,6 +139,81 @@ shader_parameter/noise_uv_offset = Vector2(0, 0)
 shader_parameter/main_tex = SubResource("CompressedTexture2D_vwum4")
 shader_parameter/noise_tex = SubResource("NoiseTexture2D_mykos")
 
+[sub_resource type="Animation" id="Animation_6vqk1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:dead_material:shader_parameter/alpha_clip")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:dead_material:shader_parameter/noise_uv_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w16ud"]
+resource_name = "crumble"
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:dead_material:shader_parameter/alpha_clip")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 4.1, 5.8, 10.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0, 0.0, 1.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"a_hide_main"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:dead_material:shader_parameter/noise_uv_offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 10.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cl3h6"]
+_data = {
+"RESET": SubResource("Animation_6vqk1"),
+"crumble": SubResource("Animation_w16ud")
+}
+
 [node name="Slime-agent" type="RigidBody3D" node_paths=PackedStringArray("damageable")]
 collision_layer = 2
 collision_mask = 255
@@ -152,6 +233,10 @@ normal_friction = 0.4
 use_groundcheck = true
 wander_radius = 10.0
 damageable = NodePath("Damageable")
+
+[node name="Characterbody-Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.325911, 0)
+shape = SubResource("SphereShape3D_oo4jn")
 
 [node name="Actions" type="Node" parent="." node_paths=PackedStringArray("attack_1_hitbox", "self_collider", "hit_action_slot")]
 script = ExtResource("2_gni4g")
@@ -205,17 +290,18 @@ raycastType = 2
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 deterministic = false
-root_node = NodePath("../slime-1")
+root_node = NodePath("../slime2")
 callback_mode_process = 0
 callback_mode_method = 1
 tree_root = SubResource("AnimationNodeStateMachine_fw2yg")
 advance_expression_base_node = NodePath("..")
-anim_player = NodePath("../slime-1/AnimationPlayer")
+anim_player = NodePath("../slime2/AnimationPlayer")
 parameters/walk/blend_position = 0.037272
 
-[node name="BHTree" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("9_2gh7b")]
+[node name="BHTree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("9_2gh7b")]
 actor_node_path = NodePath("..")
 blackboard = NodePath("../Blackboard")
+actor = NodePath("..")
 
 [node name="Blackboard" type="Node" parent="."]
 script = ExtResource("10_xjgab")
@@ -232,11 +318,15 @@ max_speed = 20.0
 avoidance_priority = 0.0
 debug_enabled = true
 
-[node name="AgentAudio" parent="." instance=ExtResource("7_7sqxc")]
+[node name="AgentAudio" type="Node3D" parent="."]
 
-[node name="Actions" parent="AgentAudio" index="0"]
-stream = null
+[node name="Actions" type="AudioStreamPlayer3D" parent="AgentAudio"]
 volume_db = 11.029
+autoplay = true
+max_distance = 50.0
+max_polyphony = 3
+panning_strength = 1.5
+bus = &"SFX"
 
 [node name="GroundCheck" type="Area3D" parent="."]
 collision_layer = 0
@@ -283,39 +373,46 @@ shape = SubResource("CapsuleShape3D_ql85j")
 [node name="HitFlash" type="Timer" parent="Damageable"]
 process_mode = 1
 script = ExtResource("13_o4ngg")
-models_path = Array[NodePath]([NodePath("../../slime-1/slime/Skeleton3D/slime-mesh")])
+models_path = Array[NodePath]([NodePath("../../slime2/slime/Skeleton3D/slime-mesh")])
 time = 0.2
 flash_mat = ExtResource("14_28x42")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.325911, 0)
-shape = SubResource("SphereShape3D_oo4jn")
-
-[node name="ShadowCaster" parent="." instance=ExtResource("12_1g05n")]
+[node name="ShadowCaster" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.151654, 0.00334776)
+target_position = Vector3(0, -10, 0)
+collision_mask = 15
+script = ExtResource("14_1kjit")
 
-[node name="DeathHelper" parent="." instance=ExtResource("13_ytlmc")]
-mesh_path = NodePath("../slime-1/slime/Skeleton3D/slime-mesh")
+[node name="shadow" type="MeshInstance3D" parent="ShadowCaster"]
+layers = 16
+mesh = SubResource("QuadMesh_uf0ca")
+
+[node name="DeathHelper" type="Timer" parent="."]
+process_mode = 1
+process_callback = 0
+wait_time = 14.0
+one_shot = true
+script = ExtResource("15_5jx1u")
+mesh_path = NodePath("../slime2/slime/Skeleton3D/slime-mesh")
 dead_material = SubResource("ShaderMaterial_c06cb")
+transparent_material = ExtResource("17_a2ku2")
 
-[node name="slime-1" parent="." instance=ExtResource("12_6rbna")]
-transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 0, 0, 0)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DeathHelper"]
+libraries = {
+"": SubResource("AnimationLibrary_cl3h6")
+}
 
-[node name="slime" parent="slime-1" index="0"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+[node name="slime2" parent="." instance=ExtResource("19_n114a")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="Skeleton3D" parent="slime-1/slime" index="0"]
+[node name="Skeleton3D" parent="slime2/slime" index="0"]
 bones/0/rotation = Quaternion(-2.98023e-08, 1.19209e-07, -2.11758e-22, 1)
-bones/1/scale = Vector3(0.999449, 1.00068, 1.00121)
-bones/2/position = Vector3(2.04441e-09, 0.142521, -0.00754589)
-bones/2/rotation = Quaternion(-0.0147723, -2.98879e-19, -4.76521e-09, 0.999891)
+bones/1/scale = Vector3(1.00091, 1.00028, 1.0005)
+bones/2/position = Vector3(2.04441e-09, 0.138698, -0.00743074)
+bones/2/rotation = Quaternion(-0.0141777, 5.42445e-16, -4.76151e-09, 0.9999)
 
-[node name="slime-mesh" parent="slime-1/slime/Skeleton3D" index="0"]
-layers = 2
+[node name="slime-mesh" parent="slime2/slime/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("14_i5agv")
-
-[node name="AnimationPlayer" parent="slime-1" index="1"]
-playback_default_blend_time = 0.2
 
 [connection signal="timeout" from="Actions/Timer" to="." method="new_wander_target"]
 [connection signal="timeout" from="Actions/Cooldown" to="." method="_cooldown_complete"]
@@ -326,5 +423,4 @@ playback_default_blend_time = 0.2
 [connection signal="area_exited" from="Senses" to="Senses" method="_on_area_exited"]
 [connection signal="timeout" from="Damageable/HitFlash" to="Damageable/HitFlash" method="end_effect"]
 
-[editable path="AgentAudio"]
-[editable path="slime-1"]
+[editable path="slime2"]

@@ -27,7 +27,6 @@ var can_double_jump = false
 @onready var spring_arm = %Gimbal
 
 @onready var particle_trail = $ParticleTrail
-@onready var footsteps = $Footsteps
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") * 2
@@ -35,6 +34,9 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") * 2
 # ---------- FUNCTIONS ---------- #
 
 func _process(delta):
+	
+	show_mouse_cursor()
+	
 	player_animations()
 	get_input(delta)
 	
@@ -63,16 +65,11 @@ func _process(delta):
 	velocity.y -= gravity * delta
 
 func perform_jump():
-	AudioManager.jump_sfx.play()
-	AudioManager.jump_sfx.pitch_scale = 1.12
-	
 	jumpTween()
 	animation.play("Jump")
 	velocity.y = jump_force
 
 func perform_flip_jump():
-	AudioManager.jump_sfx.play()
-	AudioManager.jump_sfx.pitch_scale = 0.8
 	animation.play("Flip", -1, 2)
 	velocity.y = jump_force
 	await animation.animation_finished
@@ -102,13 +99,11 @@ func get_input(_delta):
 # Handle Player Animations
 func player_animations():
 	particle_trail.emitting = false
-	footsteps.stream_paused = true
 	
 	if is_on_floor():
 		if is_moving(): # Checks if player is moving
 			animation.play("Run", 0.5)
 			particle_trail.emitting = true
-			footsteps.stream_paused = false
 		else:
 			animation.play("Idle", 0.5)
 
@@ -119,5 +114,10 @@ func on_hit():
 	pass
 	
 	
+
+# Making Cursor visible using "mouse_visible" key which is assigned in Project Settings > Input Map
+func show_mouse_cursor():
+	if Input.is_action_just_pressed("mouse_visible"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	

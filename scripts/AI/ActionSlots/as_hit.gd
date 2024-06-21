@@ -13,7 +13,7 @@ class_name AS_Hit extends ActionSlot
 @export var stop_think_during_recovery := false
 
 # prevent the hit effect from stunlocking enemies
-# only the first hit in that period of time will do the animation
+# only the first hit in that period of time will play the animation
 @export_category("Recovery Repeat Timer")
 @export var enable_repeat_timer := false
 @export var repeat_time : float = 1.0
@@ -54,9 +54,9 @@ func on_start_action():
 
 func on_end_action():
 	parent.action_ended.disconnect(on_end_action)
-	# RESET VARIABLES
 	agent.toggle_damageable(true)
 
+# empty function must be here to overwrite the assert in the base class.
 func on_action_process():
 	pass
 
@@ -66,6 +66,3 @@ func repeat_timer_start():
 
 func repeat_timer_timeout():
 	repeat_timer_in_progress = false
-
-func is_hit_action_available():
-	pass

@@ -2,7 +2,7 @@
 extends RigidBody3D
 class_name Agent
 
-#--- PUBLIC VARS ---#
+#--- PUBLIC VARIABLES ---#
 
 @export_category("Main")
 
@@ -10,7 +10,7 @@ class_name Agent
 @export var acceleration := 5.0
 @export var turn_speed := 5.0
 
-## If enabled, once the player stops, they slide according to their friction, otherwise they stop.
+# If enabled, once the agent stops, they slide according to their friction, otherwise they stop.
 @export var enable_slide := false
 @export var slide_friction := 1
 @export var normal_friction := 0.5
@@ -19,10 +19,10 @@ class_name Agent
 @export var fall_damage_floor := 5.0
 @export var in_air_downward_force := 0.0
 
-## Uses a ground check child node to check for the floor, more accurate
+# Uses a ground check child node to check for the floor, more accurate
 @export var use_groundcheck : bool = false
 
-## Only used if GroundCheck is disabled
+# Only used if GroundCheck is disabled
 @export var floor_layer_mask := 0b0001 ## This is in Binary
 
 @export_category("Navigation")
@@ -32,7 +32,7 @@ class_name Agent
 @export var obstacle_path_skip_distance : float = 1.5
 @export var ground_detection_sensitivity : float = 3
 
-#--- PRIVATE VARS ---#
+#--- PRIVATE VARIABLES ---#
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
@@ -41,7 +41,8 @@ class_name Agent
 @onready var timer : Timer = $Actions/Timer
 @onready var cooldown : Timer = $Actions/Cooldown
 @onready var secondary_cooldown : Timer = $Actions/SecondaryCooldown
-@onready var death_helper : Timer = $DeathHelper
+# manages all code run when the enemy is dead because the rest of the enemy will not be processed.
+@onready var death_helper : Timer = $DeathHelper 
 
 @onready var actions : NPCActions = $Actions
 
@@ -59,7 +60,7 @@ class_name Agent
 
 # - does not do anything in this script but may be used by the behavior tree
 #   to keep track of things like the crab being in its shell
-@export var is_idle := false
+var is_idle := false
 
 var enable_navigation := true
 
@@ -73,8 +74,8 @@ var obstacle_distance : Vector3
 var wall_raycast_collided : bool = false
 
 var is_alive := true
-var disable_hit_response := false
 
+var disable_hit_response := false
 
 var gravity : Vector3
 var custom_gravity : Vector3 = Vector3.ZERO
@@ -101,12 +102,9 @@ var nav_force : Vector3
 
 # --- Default Functions --- #
 
-
 @onready var movement_speed := normal_speed
 
 @onready var initial_linear_damp : float = linear_damp
-
-
 
 func _ready():
 	if use_groundcheck:
@@ -143,7 +141,7 @@ func _physics_process(_delta):
 	# this is done per frame
 	# originally it was done only when on ground on this frame and not on the last frame
 	# but that was unreliable, and its not that much code to run per frame.
-	calc_fall_damage()
+	_calc_fall_damage()
 
 	# if you are on the ground and naviation is enabled do navigation, if on the ground and no navigation, do slide if enabled
 	if actions.action_in_progress:
@@ -222,7 +220,7 @@ func toggle_navigation(b : bool):
 			linear_velocity = Vector3.ZERO
 
 func new_wander_target(_radius : float = wander_radius):
-	set_target((EX.RandomOnUnitCircleV3()* _radius) + global_position)
+	set_target((RandomOnUnitCircleV3() * _radius) + global_position)
 
 func set_target(_target: Vector3):
 	# do not let a new target be set when unstuck is running
@@ -239,7 +237,6 @@ func set_target(_target: Vector3):
 	var _navmesh_pos = NavigationServer3D.map_get_closest_point(map, _pos)
 
 	nav_agent.target_position = _navmesh_pos
-
 
 func is_at_destination() -> bool:
 	# This optional step can prevent lag in some rare cases
@@ -264,6 +261,71 @@ func toggle_damageable(_d : bool):
 	else:
 		damageable.active = false
 
+func is_moving() -> bool:
+	if Vector2(linear_velocity.z, linear_velocity.x).length() >= 0.1:
+		return true
+	else:
+		return false
+
+func die():
+	actions.a_action_ended()
+	# if you are already dead, dont run this again
+	if !is_alive:
+		return
+	is_alive = false
+	freeze = true
+	collision_layer = 0
+	collision_mask = 0
+	anim_sm.start("die")
+
+	# disable all important things that run
+	bh_tree.process_mode = Node.PROCESS_MODE_DISABLED
+	nav_agent.process_mode = Node.PROCESS_MODE_DISABLED
+	actions.process_mode = Node.PROCESS_MODE_DISABLED
+	senses.process_mode = Node.PROCESS_MODE_DISABLED
+	damageable.process_mode = Node.PROCESS_MODE_DISABLED
+	if death_helper != null:
+		death_helper.begin()
+
+func force_avoid_obstacle():
+	near_obstacle = true
+
+func is_rotate_complete() -> bool:
+	
+	if global_transform.origin.is_equal_approx(rotate_target):
+		return true
+	
+	var _b : Transform3D = global_transform.looking_at(rotate_target)
+	
+	# from StackOverflow user Theraot
+	# https://stackoverflow.com/questions/71376004/how-to-get-euler-angles-from-two-transforms-in-godot
+	# gets the difference between the current angle and the desired angle
+	var a := global_transform.basis.get_rotation_quaternion()
+	var b := _b.basis.get_rotation_quaternion()
+	var r := a.inverse() * b
+	var _result := r.get_euler()
+	
+	if abs(_result.y) < 0.4:
+		return true
+	else:
+		return false
+
+func entered_enable_area():
+	
+	bh_tree.enable()
+	
+func exited_enable_area():
+	bh_tree.disable()
+
+func start_cooldown(_time : float):
+	in_cooldown = true
+	cooldown.start(_time)
+
+func start_secondary_cooldown(_time : float):
+	in_secondary_cooldown = true
+	secondary_cooldown.start(_time)
+
+
 ### --- Interal Functions --- ###
 
 # sets on_ground
@@ -280,7 +342,7 @@ func _is_on_ground():
 				# if you are moving very fast vertically, do not accept that you are on the ground. this prevents some times you would clip through the ground
 				if linear_velocity.y < ground_detection_sensitivity:
 					if !on_ground:
-						calc_fall_damage()
+						_calc_fall_damage()
 					on_ground = true
 					return
 					
@@ -358,38 +420,8 @@ func _check_out_of_bounds():
 		printerr("POSITION RESET of ", self.name)
 		return
 
-
 func _update_animations():
 	anim_tree.set("parameters/walk/blend_position", linear_velocity.length())
-
-func is_moving() -> bool:
-	if Vector2(linear_velocity.z, linear_velocity.x).length() >= 0.1:
-		return true
-	else:
-		return false
-
-func die():
-	actions.a_action_ended()
-	# if you are already dead, dont run this again
-	if !is_alive:
-		return
-	is_alive = false
-	freeze = true
-	collision_layer = 0
-	collision_mask = 0
-	anim_sm.start("die")
-
-	# disable all important things that run
-	bh_tree.process_mode = Node.PROCESS_MODE_DISABLED
-	nav_agent.process_mode = Node.PROCESS_MODE_DISABLED
-	actions.process_mode = Node.PROCESS_MODE_DISABLED
-	senses.process_mode = Node.PROCESS_MODE_DISABLED
-	damageable.process_mode = Node.PROCESS_MODE_DISABLED
-	if death_helper != null:
-		death_helper.begin()
-
-func force_avoid_obstacle():
-	near_obstacle = true
 
 func _on_hit_complete():
 	toggle_damageable(true)
@@ -412,47 +444,18 @@ func _rotate_towards(_pos : Vector3, _delta : float):
 	# smoothly rotate to look at next_path_position (I dont know how it works)
 	# from reddit user u/NovemberDev
 	# this is done before collision detection because if you dont, it spins in a circle around the obstacle
-	global_transform.basis = global_transform.basis.slerp(global_transform.looking_at(_pos, Vector3.UP).basis, _delta * turn_speed)
-
-func is_rotate_complete() -> bool:
-	
-	if global_transform.origin.is_equal_approx(rotate_target):
-		return true
-	
-	var _b : Transform3D = global_transform.looking_at(rotate_target)
-	
-	# from StackOverflow user Theraot
-	# https://stackoverflow.com/questions/71376004/how-to-get-euler-angles-from-two-transforms-in-godot
-	# gets the difference between the current angle and the desired angle
-	var a := global_transform.basis.get_rotation_quaternion()
-	var b := _b.basis.get_rotation_quaternion()
-	var r := a.inverse() * b
-	var _result := r.get_euler()
-	
-	if abs(_result.y) < 0.4:
-		return true
-	else:
-		return false
-	
+	global_transform.basis = global_transform.basis.slerp(global_transform.looking_at(_pos, Vector3.UP).basis, _delta * turn_speed)	
 
 func _slide():
 	pass
 
-func start_cooldown(_time : float):
-	in_cooldown = true
-	cooldown.start(_time)
-
 func _cooldown_complete():
 	in_cooldown = false
-
-func start_secondary_cooldown(_time : float):
-	in_secondary_cooldown = true
-	secondary_cooldown.start(_time)
 
 func _seconday_cooldown_complete():
 	in_secondary_cooldown = false
 
-func calc_fall_damage(from_zero : bool = false):
+func _calc_fall_damage(from_zero : bool = false):
 	
 	var _current_veloc
 	if from_zero:
@@ -465,21 +468,36 @@ func calc_fall_damage(from_zero : bool = false):
 		var _d : AttackObject = AttackObject.new()
 		_d.damage = roundi(_y * fall_damage_multiplier)
 		damageable.damaged(_d)
-		
 
 func _nav_unstuck():
 	# you cant set a target while unstuck is active so turn it off
 	nav_unstuck_active = false
 
-func entered_enable_area():
-	
-	bh_tree.enable()
-	
-func exited_enable_area():
-	bh_tree.disable()
+# The below functions are used to replicate the functionality of Unity's RandomOnUnitCircle
+# which is used for the enemy wander state.
+func RandomOnUnitCircleV3():
+	var _v2 = RandomOnUnitCircle()
+	return Vector3(_v2.x, 0, _v2.y)
 
+func RandomOnUnitCircle():
+	var _rV3 : Vector3 = RandomVector3().normalized()
+	var _rV2 : Vector2 = Vector2(_rV3.x, _rV3.y)
+	var _angle : Vector2 = Vector2.ZERO.direction_to(_rV2)
+	return _angle
 
-
-
-
+func RandomVector3():
+	var x0 : float = -1.0 + randf() * 2.0
+	var x1 : float = -1.0 + randf() * 2.0
+	var x2 : float = -1.0 + randf() * 2.0
+	var x3 : float = -1.0 + randf() * 2.0
+	while x0 * x0 + x1 * x1 + x2 * x2 + x3 * x3 >= 1:
+		x0 = -1.0 + randf() * 2.0
+		x1 = -1.0 + randf() * 2.0
+		x2 = -1.0 + randf() * 2.0
+		x3 = -1.0 + randf() * 2.0
+	var a : float = x0*x0*x1*x1+x2*x2+x3*x3
+	var x : float = 2*(x1 * x3+x0*x2)/a
+	var y : float = 2*(x2*x3-x0*x1)/a
+	var z : float = (x0*x0 + x3*x3 - x1*x1 - x2*x2)/a
+	return Vector3(x,y,z)
 
