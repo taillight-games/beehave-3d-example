@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://bb4fafxi72ab5"]
+[gd_scene load_steps=13 format=3 uid="uid://bb4fafxi72ab5"]
 
-[ext_resource type="ArrayOccluder3D" uid="uid://dxrnmsxi5migb" path="res://assets/test-level-1.occ" id="1_ka46i"]
-[ext_resource type="NavigationMesh" uid="uid://c7u7dsa81cbdm" path="res://assets/test-level-1-nav-mesh.tres" id="2_dmn8b"]
+[ext_resource type="NavigationMesh" uid="uid://bfl2doe8xpotn" path="res://assets/nav-mesh.tres" id="2_af563"]
 [ext_resource type="PackedScene" uid="uid://d31p1dmc66x0f" path="res://assets/models/level.glb" id="3_ncwu5"]
 [ext_resource type="Material" uid="uid://bxsrpokc2g0mm" path="res://assets/materials/grass-32.tres" id="4_yxhyh"]
 [ext_resource type="Material" uid="uid://bd8xo0abeyq1j" path="res://assets/materials/rock-32.tres" id="5_v5h6b"]
@@ -12,17 +11,12 @@
 [ext_resource type="Material" uid="uid://bk0rqjdcmjtt0" path="res://assets/materials/fence.tres" id="10_rbyn3"]
 [ext_resource type="Environment" uid="uid://c4cxd4w3vogf" path="res://assets/default_env.tres" id="11_qpf0a"]
 [ext_resource type="PackedScene" uid="uid://cfedvat670073" path="res://scenes/player.tscn" id="12_vl16i"]
-[ext_resource type="PackedScene" uid="uid://bmpt13tisf6mq" path="res://scenes/objects/slime_agent.tscn" id="13_qcani"]
+[ext_resource type="PackedScene" uid="uid://bmpt13tisf6mq" path="res://scenes/slime_agent.tscn" id="13_qcani"]
 
 [node name="Test-level-1" type="Node3D"]
 
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.4818, 7.5373, -68.2586)
-occluder = ExtResource("1_ka46i")
-bake_mask = 4293918721
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = ExtResource("2_dmn8b")
+navigation_mesh = ExtResource("2_af563")
 use_edge_connections = false
 
 [node name="level" parent="NavigationRegion3D" instance=ExtResource("3_ncwu5")]

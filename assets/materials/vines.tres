@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://deivqr8yqilku"]
 
-[ext_resource type="Texture2D" uid="uid://dnw8444nv77cb" path="res://assets/textures/vines-32-2.png" id="1_r51pv"]
+[ext_resource type="Texture2D" uid="uid://dnw8444nv77cb" path="res://assets/models/textures/vines.png" id="1_r51pv"]
 
 [resource]
 transparency = 2

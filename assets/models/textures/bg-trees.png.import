@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhh4ve32ldk71"
-path="res://.godot/imported/rock-edge-2.png-0ebe82b85e3a4f08867dcae0eb51ba50.ctex"
+uid="uid://dkd52dlahgxlu"
+path="res://.godot/imported/bg-trees.png-269043d6b04fb226c1690ea4ebdc9d7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/rock-edge-2.png"
-dest_files=["res://.godot/imported/rock-edge-2.png-0ebe82b85e3a4f08867dcae0eb51ba50.ctex"]
+source_file="res://assets/models/textures/bg-trees.png"
+dest_files=["res://.godot/imported/bg-trees.png-269043d6b04fb226c1690ea4ebdc9d7f.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnw8444nv77cb"
-path="res://.godot/imported/vines-32-2.png-c189b2965703fc7959671b3f635cf913.ctex"
+uid="uid://ogf3nlwpmjvv"
+path="res://.godot/imported/rock.png-5b611a500258ba1f546867a879c47c59.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/vines-32-2.png"
-dest_files=["res://.godot/imported/vines-32-2.png-c189b2965703fc7959671b3f635cf913.ctex"]
+source_file="res://assets/models/textures/rock.png"
+dest_files=["res://.godot/imported/rock.png-5b611a500258ba1f546867a879c47c59.ctex"]
 
 [params]
 

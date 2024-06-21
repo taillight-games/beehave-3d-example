@@ -30,7 +30,7 @@ BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 window/size/viewport_width=640
 window/size/viewport_height=480
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
 
@@ -223,7 +223,6 @@ shading/overrides/force_lambert_over_burley=true
 environment/ssao/quality=0
 occlusion_culling/occlusion_rays_per_thread=256
 limits/global_shader_variables/buffer_size=10536
-anti_aliasing/quality/screen_space_aa=1
 occlusion_culling/use_occlusion_culling=true
 mesh_lod/lod_change/threshold_pixels=0.0
 

@@ -4,9 +4,9 @@
 [ext_resource type="Script" path="res://scripts/AI/enemy_actions.gd" id="2_gni4g"]
 [ext_resource type="Script" path="res://scripts/AI/ActionSlots/as_hit.gd" id="3_5pj2u"]
 [ext_resource type="Script" path="res://scripts/Damageable/attack_object.gd" id="3_qqejo"]
-[ext_resource type="Script" path="res://scripts/misc/AvoidObstacle.gd" id="5_xmx04"]
-[ext_resource type="PackedScene" uid="uid://bv4rxlhd6q4im" path="res://scenes/objects/beehave-trees/SlimeEnemy.tscn" id="9_2gh7b"]
-[ext_resource type="Script" path="res://scripts/misc/GroundCheck.gd" id="9_wjhlj"]
+[ext_resource type="Script" path="res://scripts/AI/avoid_obstacle.gd" id="5_xmx04"]
+[ext_resource type="PackedScene" uid="uid://bv4rxlhd6q4im" path="res://scenes/beehave-trees/SlimeEnemy.tscn" id="9_2gh7b"]
+[ext_resource type="Script" path="res://scripts/AI/ground_check.gd" id="9_wjhlj"]
 [ext_resource type="Script" path="res://scripts/AI/ai_senses.gd" id="10_ts6rw"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="10_xjgab"]
 [ext_resource type="Script" path="res://scripts/AI/damageable_settings.gd" id="11_deynq"]
@@ -16,7 +16,7 @@
 [ext_resource type="Material" uid="uid://b6ros7h2rxv3s" path="res://assets/materials/red_overlay.tres" id="14_28x42"]
 [ext_resource type="Material" uid="uid://dpodxrkgsgipw" path="res://assets/materials/slime.material" id="14_i5agv"]
 [ext_resource type="Shader" path="res://assets/shaders/crumble.gdshader" id="14_x4nof"]
-[ext_resource type="Script" path="res://scripts/misc/death_helper.gd" id="15_5jx1u"]
+[ext_resource type="Script" path="res://scripts/AI/death_helper.gd" id="15_5jx1u"]
 [ext_resource type="Material" uid="uid://mqiw67hqph8o" path="res://assets/materials/shadow.tres" id="15_fr34s"]
 [ext_resource type="Material" uid="uid://cj4jr6crcu1gc" path="res://assets/materials/transparent.tres" id="17_a2ku2"]
 [ext_resource type="PackedScene" uid="uid://dl7svrey4buhx" path="res://assets/models/slime.glb" id="19_n114a"]
@@ -326,7 +326,6 @@ autoplay = true
 max_distance = 50.0
 max_polyphony = 3
 panning_strength = 1.5
-bus = &"SFX"
 
 [node name="GroundCheck" type="Area3D" parent="."]
 collision_layer = 0
@@ -407,9 +406,9 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Skeleton3D" parent="slime2/slime" index="0"]
 bones/0/rotation = Quaternion(-2.98023e-08, 1.19209e-07, -2.11758e-22, 1)
-bones/1/scale = Vector3(1.00091, 1.00028, 1.0005)
-bones/2/position = Vector3(2.04441e-09, 0.138698, -0.00743074)
-bones/2/rotation = Quaternion(-0.0141777, 5.42445e-16, -4.76151e-09, 0.9999)
+bones/1/scale = Vector3(0.999449, 1.00068, 1.00121)
+bones/2/position = Vector3(2.04441e-09, 0.142521, -0.00754588)
+bones/2/rotation = Quaternion(-0.0147722, -2.5965e-19, -4.76521e-09, 0.999891)
 
 [node name="slime-mesh" parent="slime2/slime/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("14_i5agv")

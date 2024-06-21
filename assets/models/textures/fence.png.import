@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fkglf2gwpead"
-path="res://.godot/imported/bg-trees-32-1.png-5ff772f8c3ffe9ee0f35962096b0ec1a.ctex"
+uid="uid://dnnyfo1xp27s3"
+path="res://.godot/imported/fence.png-84fb9590bd822d9ddfd0902befb38fc0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/bg-trees-32-1.png"
-dest_files=["res://.godot/imported/bg-trees-32-1.png-5ff772f8c3ffe9ee0f35962096b0ec1a.ctex"]
+source_file="res://assets/models/textures/fence.png"
+dest_files=["res://.godot/imported/fence.png-84fb9590bd822d9ddfd0902befb38fc0.ctex"]
 
 [params]
 

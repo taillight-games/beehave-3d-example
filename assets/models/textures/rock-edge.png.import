@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnnyfo1xp27s3"
-path="res://.godot/imported/fence-32-1.png-2b1f59aec05445d5d4cde341c4105afd.ctex"
+uid="uid://bhh4ve32ldk71"
+path="res://.godot/imported/rock-edge.png-1bd3ec73bd684aaadd4d9fa64119a7d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/fence-32-1.png"
-dest_files=["res://.godot/imported/fence-32-1.png-2b1f59aec05445d5d4cde341c4105afd.ctex"]
+source_file="res://assets/models/textures/rock-edge.png"
+dest_files=["res://.godot/imported/rock-edge.png-1bd3ec73bd684aaadd4d9fa64119a7d6.ctex"]
 
 [params]
 
